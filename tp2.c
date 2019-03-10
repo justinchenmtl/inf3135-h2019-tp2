@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h> 
+#include <math.h>
 
 // Fonctions main
 int main(int argc, char** argv) {
@@ -13,7 +14,8 @@ int main(int argc, char** argv) {
     FILE *entree = NULL;
     FILE *sortie = NULL;
     FILE *code = NULL; 
-    int i=0, j=0, min, sum, max, count, tete=0, tail=0;
+    int i=0, j=0;
+    long long min, sum, max, count, tete=0l, tail=0l;
     count = argc;
 
     // Validations des arguments
@@ -27,7 +29,7 @@ int main(int argc, char** argv) {
             return 6;
         }
 
-        if(count < 2 || count == 4 || count == 6 || strcmp(argv[1], "-c") != 0){
+        if(count < 2 || strcmp(argv[1], "-c") != 0){
             fprintf(stderr, "La ligne de commande doit être sous la forme suivante: %s <-c CODEpermanent> [-i fichier.in] [-o fichier.out] \n", argv[0]);
             return 1;
         }
@@ -79,8 +81,8 @@ int main(int argc, char** argv) {
     fclose(code);
 
     // Validation des intervalles dans le fichier entrée 
-    int a = scanf("%d", &tete);
-    int b = scanf("%d", &tail);
+    long long a = scanf("%lld", &tete);
+    long long b = scanf("%lld", &tail);
     if(a != 1 || b != 1 || tete < 0 || tail < 0 ){
        return 4;
     }
@@ -96,12 +98,18 @@ int main(int argc, char** argv) {
     fclose(entree);
 
     // Calculer les nombres parfaits entre les intervalles
-    for(i=min; i<=max; i++){
-        sum=0;
-        for(j=1; j<i; j++){
-            if(i%j==0)
-                sum += j;
-        }
+    for(i=min; i<=max; ++i){
+        sum=1;
+		if(i%9 == 1 && (i%10 == 6 || i%100 == 28)){
+        for(j=2; j*j<= i; ++j){
+			if(i%j==0){
+				sum += j;
+				if(j*j != i){
+					sum += i/j;
+				}
+			}
+		}
+		}
         if(sum == i && i != 0){
 
             printf("%d\n", i);
