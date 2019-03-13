@@ -13,3 +13,6 @@
 # Répertoire à ignorer
 data/
 
+# Fichier temporel
+*.swp
+*.swo
