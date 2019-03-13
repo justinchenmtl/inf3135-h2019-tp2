@@ -2,6 +2,7 @@
 
 TARGET = tp2
 OBJECTS = tp2.o
+OUTILS = outils
 CODE = code.txt
 CC = gcc
 CFLAGS = -Wall -pedantic -std=c99
@@ -11,16 +12,20 @@ CP := $(shell cat ${FILE})
 
 default: $(TARGET)
 
-$(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET) -lm
+$(TARGET): $(OBJECTS) $(OUTILS).o
+	$(CC) $(CFLAGS) $(OBJECTS) $(OUTILS).o -o $(TARGET) -lm
 
-$(OBJECTS): $(TARGET).c
+$(OBJECTS): $(TARGET).c 
 	$(CC) $(CFLAGS) -c $(TARGET).c -o $(TARGET).o
 
+$(OUTILS).o: $(OUTILS).c
+	$(CC) $(CFLAGS) -c $(OUTILS).c -o $(OUTILS).o
+
 clean:
-	rm -rf $(OBJECTS) $(TARGET) $(CODE)
+	rm -rf $(TARGET) $(CODE) *.o *.out *.zip
 
 data:
+	rm -rf ./data
 	mkdir data
 	wget $(SOURCE)
 	unzip data.zip  -d ./data
