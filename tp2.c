@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdlib.h> 
 #include <math.h>
+#include "outils.h"
 
 // Fonctions main
 int main(int argc, char** argv) {
@@ -14,8 +15,7 @@ int main(int argc, char** argv) {
     FILE *entree = NULL;
     FILE *sortie = NULL;
     FILE *code = NULL; 
-    int i=0, j=0;
-    long long min, sum, max, count, tete=0l, tail=0l;
+    long long count, tete=0l, tail=0l;
     count = argc;
 
     // Validations des arguments
@@ -37,7 +37,12 @@ int main(int argc, char** argv) {
         if(strcmp(argv[1], "-c") == 0 && (count == 2 || strlen(argv[2]) != 12)){
             return 2;
         }
-
+		
+		if(count == 4){
+			if(strcmp(argv[3], "-i") != 0 && strcmp(argv[3], "-o") != 0){
+				return 3;
+			}
+		}
         if(count == 5){ 
             if(strcmp(argv[3], "-i") != 0 && strcmp(argv[3], "-o") != 0){
                 return 3;
@@ -52,7 +57,7 @@ int main(int argc, char** argv) {
             }
          }
 
-	if(count == 7){
+	    if(count >= 7){
             if((strcmp(argv[3], "-i") != 0 && strcmp(argv[3], "-o") != 0) || (strcmp(argv[5], "-i") != 0 && strcmp(argv[5], "-o") != 0)){
 	        return 3;
 	    }else if(strcmp(argv[3], "-i") == 0 && strcmp(argv[5], "-o") == 0){
@@ -72,7 +77,7 @@ int main(int argc, char** argv) {
                     return 6;
                 }
             }
-	}
+	    }
     }
 
     // Créer un fichier code.txt qui contient le code permanent qui est passé par l'argument -c
@@ -88,6 +93,8 @@ int main(int argc, char** argv) {
     }
 
     // Déterminer le nombre minimal et maximal
+	echange(&tete, &tail);
+	/*
     if(tete > tail){
         max = tete;
         min = tail;
@@ -95,26 +102,13 @@ int main(int argc, char** argv) {
         max = tail;
         min = tete;
     }
+	*/
     fclose(entree);
 
-    // Calculer les nombres parfaits entre les intervalles
-    for(i=min; i<=max; ++i){
-        sum=1;
-		if(i%9 == 1 && (i%10 == 6 || i%100 == 28)){
-        for(j=2; j*j<= i; ++j){
-			if(i%j==0){
-				sum += j;
-				if(j*j != i){
-					sum += i/j;
-				}
-			}
-		}
-		}
-        if(sum == i && i != 0){
 
-            printf("%d\n", i);
-        }
-    }
+
+    // Calculer les nombres parfaits entre les intervalles
+    nombreParfait(tete, tail);
     return 0;
 } 
 
