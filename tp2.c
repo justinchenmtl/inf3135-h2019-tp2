@@ -123,10 +123,8 @@ int main(int argc, char** argv) {
 	echange(&tete, &tail);
     fclose(entree);
 
-
-
     // Calculer les nombres parfaits entre les intervalles
-    nombreParfait(tete, tail);
+    nbParfait(tete, tail);
     return 0;
 } 
 
