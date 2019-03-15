@@ -41,8 +41,13 @@ int main(int argc, char** argv) {
 		if(count == 4){
 			if(strcmp(argv[3], "-i") != 0 && strcmp(argv[3], "-o") != 0){
 				return 3;
+			}else if(strcmp(argv[3], "-i") == 0){
+				return 5;
+			}else if(strcmp(argv[3], "-o") == 0){
+				return 6;
 			}
 		}
+
         if(count == 5){ 
             if(strcmp(argv[3], "-i") != 0 && strcmp(argv[3], "-o") != 0){
                 return 3;
@@ -57,10 +62,32 @@ int main(int argc, char** argv) {
             }
          }
 
+		if(count == 6){
+			if((strcmp(argv[3], "-i") != 0 && strcmp(argv[3], "-o") != 0) || (strcmp(argv[5], "-i") != 0 && strcmp(argv[5], "-o") != 0)){
+				return 3;
+			}else if(strcmp(argv[3], "-i") == 0 && strcmp(argv[5], "-o") == 0){
+				entree = freopen(argv[4], "r", stdin);
+				sortie = freopen(argv[6], "w", stdout);
+				if(entree == NULL){
+				    return 5;
+				}else if(sortie == NULL){
+					return 6;
+				}
+			}else if(strcmp(argv[3], "-o") == 0 && strcmp(argv[5], "-i") == 0){
+				sortie = freopen(argv[4], "w", stdout);
+				entree = freopen(argv[6], "r", stdin);
+				if(entree == NULL){
+					return 5;
+				}else if(sortie == NULL){
+					return 6;
+				}
+			}
+		}
+
 	    if(count >= 7){
             if((strcmp(argv[3], "-i") != 0 && strcmp(argv[3], "-o") != 0) || (strcmp(argv[5], "-i") != 0 && strcmp(argv[5], "-o") != 0)){
 	        return 3;
-	    }else if(strcmp(argv[3], "-i") == 0 && strcmp(argv[5], "-o") == 0){
+	        }else if(strcmp(argv[3], "-i") == 0 && strcmp(argv[5], "-o") == 0){
                 entree = freopen(argv[4], "r", stdin);
                 sortie = freopen(argv[6], "w", stdout);
                 if(entree == NULL){
@@ -92,17 +119,8 @@ int main(int argc, char** argv) {
        return 4;
     }
 
-    // Déterminer le nombre minimal et maximal
+    // Déterminer le nombre minimal et maximal et echanger
 	echange(&tete, &tail);
-	/*
-    if(tete > tail){
-        max = tete;
-        min = tail;
-    }else{
-        max = tail;
-        min = tete;
-    }
-	*/
     fclose(entree);
 
 
